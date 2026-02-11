@@ -1,42 +1,69 @@
-# Getting started with Strapi
+# 🚀 Dockerized Strapi with Nginx and PostgreSQL
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+This project demonstrates a fully containerized **Strapi CMS** architecture, using **PostgreSQL** as the primary database and **Nginx** as a high-performance Reverse Proxy. The entire setup is orchestrated using **Docker Compose** for seamless deployment and scalability.
 
-### `develop`
+## 🛠️ Tech Stack
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
+* **CMS:** Strapi (Node.js based)
+* **Database:** PostgreSQL
+* **Proxy:** Nginx
+* **Containerization:** Docker & Docker Compose
 
-```
-npm run develop
-# or
-yarn develop
-```
+## 🏗️ Architecture Overview
 
-### `start`
+The setup consists of three interconnected services running in a custom bridge network:
 
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
+1. **`strapi_app`**: The core CMS application.
+2. **`strapi-db`**: PostgreSQL database for persistent storage.
+3. **`nginx_proxy`**: Acts as a gateway, forwarding traffic to the Strapi application on port 80.
 
-```
-npm run start
-# or
-yarn start
-```
+---
 
-### `build`
+## 🚀 How to Run Locally
 
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
+### Prerequisites
 
-```
-npm run build
-# or
-yarn build
-```
+* Docker and Docker Compose installed.
+* Git installed.
 
-## Deployment
+### Installation Steps
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
+1. **Clone the Repository:**
+```bash
+git clone https://github.com/vivekjoshi2006/6-Dockerized-Strapi-with-Nginx.git
+cd 6-Dockerized-Strapi-with-Nginx
 
 ```
-yarn strapi deploy
+
+
+2. **Spin up the Containers:**
+```bash
+docker-compose up -d --build
+
 ```
+
+
+3. **Verify Running Services:**
+```bash
+docker ps
+
+```
+
+
+*You should see three containers in the "Up" status.*
+4. **Access the Application:**
+* **Strapi Admin:** `http://localhost:80/admin` (via Nginx)
+* **API Endpoint:** `http://localhost:80/api`
+
+
+
+---
+
+## 🛡️ Nginx Configuration
+
+The Nginx service is configured as a reverse proxy to handle incoming requests on port 80 and route them to the Strapi container on port 1337. This adds a layer of security and allows for better load handling.
+
+## 🌐 Networking
+
+All containers are part of a private network called `strapi-net`. This ensures that the database is not exposed directly to the internet, and only Nginx can communicate with the external world.
 
